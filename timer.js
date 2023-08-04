@@ -32,11 +32,15 @@ class Timer {
 
   tick = () => {
     if (this.timeRemaining <= 0) {
-      this.stop
-      this.onComplete()
+      this.stop()
+      if (this.onComplete) {
+        this.onComplete()
+      }
     } else {
       this.timeRemaining = this.timeRemaining - 0.5
-      this.onTick()
+      if (this.onTick) {
+        this.onTick()
+      }
     }
   }
 

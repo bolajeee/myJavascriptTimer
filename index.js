@@ -15,7 +15,7 @@ const timer = new Timer(duration, startTimer, stopTimer, {
   onTick () {
     circle.setAttribute(
       'stroke-dashoffset',
-      (perimeter * this.timeRemaining) / period - perimeter
+      (perimeter * (period - this.timeRemaining)) / period
     )
   },
   onStop () {
