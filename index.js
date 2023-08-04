@@ -6,14 +6,17 @@ const perimeter = circle.getAttribute('r') * Math.PI * 2
 
 circle.setAttribute('stroke-dasharray', perimeter)
 
-let currentOffset = 0
+let period
+
 const timer = new Timer(duration, startTimer, stopTimer, {
-  onStart () {
-    console.log('timer started')
+  onStart (totalDuration) {
+    period = totalDuration
   },
   onTick () {
-    circle.setAttribute('stroke-dashoffset', currentOffset)
-    currentOffset = currentOffset - 20
+    circle.setAttribute(
+      'stroke-dashoffset',
+      (perimeter * this.timeRemaining) / period - perimeter
+    )
   },
   onStop () {
     console.log('timer stopped')

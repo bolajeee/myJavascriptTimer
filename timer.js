@@ -11,8 +11,8 @@ class Timer {
       this.onTick = callBacks.onTick
     }
 
-    this.startTimer.addEventListener('click', this.start)
-    this.stopTimer.addEventListener('click', this.stop)
+    this.startTimer.addEventListener('click', this.start.bind(this))
+    this.stopTimer.addEventListener('click', this.stop.bind(this))
   }
 
   start = () => {
@@ -20,7 +20,7 @@ class Timer {
       this.onStart()
     }
     this.tick()
-    this.interval = setInterval(this.tick, 1000)
+    this.interval = setInterval(this.tick, 50)
   }
 
   stop = () => {
@@ -35,7 +35,7 @@ class Timer {
       this.stop
       this.onComplete()
     } else {
-      this.timeRemaining = this.timeRemaining - 1
+      this.timeRemaining = this.timeRemaining - 0.5
       this.onTick()
     }
   }
@@ -45,6 +45,6 @@ class Timer {
   }
 
   set timeRemaining (time) {
-    this.duration.value = time
+    this.duration.value = time.toFixed(2)
   }
 }
