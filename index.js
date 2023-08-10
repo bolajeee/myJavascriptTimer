@@ -1,27 +1,23 @@
-const duration = document.querySelector('#duration')
-const startTimer = document.querySelector('#start')
-const stopTimer = document.querySelector('#stop')
+const durationInput = document.querySelector('#duration')
+const startButton = document.querySelector('#start')
+const pauseButton = document.querySelector('#pause')
 const circle = document.querySelector('circle')
-const perimeter = circle.getAttribute('r') * Math.PI * 2
 
+const perimeter = circle.getAttribute('r') * 2 * Math.PI
 circle.setAttribute('stroke-dasharray', perimeter)
 
-let period
-
-const timer = new Timer(duration, startTimer, stopTimer, {
+let duration
+const timer = new Timer(durationInput, startButton, pauseButton, {
   onStart (totalDuration) {
-    period = totalDuration
+    duration = totalDuration
   },
-  onTick () {
+  onTick (timeRemaining) {
     circle.setAttribute(
       'stroke-dashoffset',
-      (perimeter * (period - this.timeRemaining)) / period
+      (perimeter * timeRemaining) / duration - perimeter
     )
   },
-  onStop () {
-    console.log('timer stopped')
-  },
   onComplete () {
-    console.log('timer completed')
+    console.log('Timer is completed')
   }
 })

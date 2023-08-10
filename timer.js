@@ -1,54 +1,49 @@
 class Timer {
-  constructor (duration, startTimer, stopTimer, callBacks) {
-    this.duration = duration
-    this.startTimer = startTimer
-    this.stopTimer = stopTimer
-
-    if (callBacks) {
-      this.onStart = callBacks.onStart
-      this.onStop = callBacks.onStop
-      this.onComplete = callBacks.onComplete
-      this.onTick = callBacks.onTick
+  constructor (durationInput, startButton, pauseButton, callbacks) {
+    this.durationInput = durationInput
+    this.startButton = startButton
+    this.pauseButton = pauseButton
+    if (callbacks) {
+      this.onStart = callbacks.onStart
+      this.onTick = callbacks.onTick
+      this.onComplete = callbacks.onComplete
     }
 
-    this.startTimer.addEventListener('click', this.start.bind(this))
-    this.stopTimer.addEventListener('click', this.stop.bind(this))
+    this.startButton.addEventListener('click', this.start)
+    this.pauseButton.addEventListener('click', this.pause)
   }
 
   start = () => {
     if (this.onStart) {
-      this.onStart()
+      this.onStart(this.timeRemaining)
     }
     this.tick()
     this.interval = setInterval(this.tick, 50)
   }
 
-  stop = () => {
-    if (this.onStop) {
-      this.onStop()
-    }
+  pause = () => {
     clearInterval(this.interval)
   }
 
   tick = () => {
     if (this.timeRemaining <= 0) {
-      this.stop()
+      this.pause()
       if (this.onComplete) {
         this.onComplete()
       }
     } else {
-      this.timeRemaining = this.timeRemaining - 0.5
+      this.timeRemaining = this.timeRemaining - 0.05
       if (this.onTick) {
-        this.onTick()
+        this.onTick(this.timeRemaining)
       }
     }
   }
 
   get timeRemaining () {
-    return parseFloat(this.duration.value)
+    return parseFloat(this.durationInput.value)
   }
 
   set timeRemaining (time) {
-    this.duration.value = time.toFixed(2)
+    this.durationInput.value = time.toFixed(2)
   }
 }
